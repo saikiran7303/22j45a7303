@@ -1,0 +1,41 @@
+import React, { useState } from 'react';
+
+const AverageCalculator = () => {
+  const [numbers, setNumbers] = useState('');
+  const [average, setAverage] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleCalculate = () => {
+    const numArray = numbers.split(',').map(Number);
+
+    if (numArray.length === 0 || numArray.some(isNaN)) {
+      setError('Please enter a valid list of numbers separated by commas.');
+      setAverage(null);
+      return;
+    }
+
+    const sum = numArray.reduce((acc, num) => acc + num, 0);
+    const avg = sum / numArray.length;
+
+    setAverage(avg);
+    setError(null);
+  };
+
+  return (
+    <div>
+      <h1>Average Calculator</h1>
+      <input
+        type="text"
+        value={numbers}
+        onChange={(e) => setNumbers(e.target.value)}
+        placeholder="Enter numbers separated by commas"
+      />
+      <button onClick={handleCalculate}>Calculate Average</button>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {average !== null && <p>Average: {average}</p>}
+    </div>
+  );
+};
+
+export default AverageCalculator;
